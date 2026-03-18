@@ -13,13 +13,15 @@ import type { GaiaShellLayoutProps } from "@converge-cloudops/gaia-ui";
 interface GaiaShellLayoutProps {
   headerProps: Omit<GaiaHeaderProps, "burgerSlot">;
   navbarProps: GaiaNavbarProps;
-  subHeaderProps?: SubHeaderProps;
+  subHeaderProps?: Omit<SubHeaderProps, "title"> & { title?: string };
   headerHeight?: number;           // default: 50
   navbarWidth?: number;            // default: 240
   navbarBreakpoint?: "xs" | "sm" | "md" | "lg" | "xl"; // default: "sm"
   children: React.ReactNode;
 }
 ```
+
+> When `subHeaderProps` is provided, `title` is auto-resolved from the active nav link. Pass `title` explicitly to override. `react-router` is required — `GaiaShellLayout` calls `useLocation()` internally.
 
 ---
 

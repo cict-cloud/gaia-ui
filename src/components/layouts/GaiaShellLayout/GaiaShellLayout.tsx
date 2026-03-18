@@ -40,7 +40,7 @@ export interface GaiaShellLayoutProps {
    * Title is automatically resolved from the current pathname — you
    * only need to pass `content` for extra controls on the right side.
    */
-  subHeaderProps?: SubHeaderProps;
+  subHeaderProps?: Omit<SubHeaderProps, "title"> & { title?: string };
   /** Header height in px. Defaults to 50 */
   headerHeight?: number;
   /** Navbar width in px. Defaults to 240 */

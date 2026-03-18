@@ -14,23 +14,22 @@ import { GaiaShellLayout } from "@converge-cloudops/gaia-ui";
 |------|------|---------|-------------|
 | `headerProps` | `Omit<GaiaHeaderProps, "burgerSlot">` | — | Props forwarded to `GaiaHeader`. `burgerSlot` is managed internally. |
 | `navbarProps` | `GaiaNavbarProps` | — | Props forwarded to `GaiaNavbar`. |
-| `subHeaderProps` | `SubHeaderProps` | — | Optional. When provided, renders a `SubHeader` above the page content. |
+| `subHeaderProps` | `{ title?: string; content?: React.ReactNode }` | — | Optional. When provided, renders a `SubHeader` above the page content. Title is auto-resolved from the active nav link — only pass `content` for right-side controls, or `title` to override. |
 | `headerHeight` | `number` | `50` | Header height in pixels. |
 | `navbarWidth` | `number` | `240` | Navbar width in pixels. |
 | `navbarBreakpoint` | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | `"sm"` | Breakpoint below which the navbar collapses and the burger appears. |
 | `children` | `React.ReactNode` | — | Page content rendered inside a fluid `Container`. |
 
 `navbarProps` takes `{ sections, resolveSection }` — see [GaiaNavbar](./GaiaNavbar.md) for details.
-`subHeaderProps` takes `{ title, content? }` — see [SubHeader](./SubHeader.md) for details.
 
 ## Behavior
 
 - **Mobile burger** — a `<Burger>` is created internally and injected into the header via `GaiaHeader`'s `burgerSlot`. It is hidden above `navbarBreakpoint` and toggles the navbar on smaller screens.
 - **Disclosure state** — `useDisclosure` from `@mantine/hooks` manages the open/close state. You do not need to manage this yourself.
-- **Route tracking** — `GaiaNavbar` reads the current pathname via `useLocation()` internally. You do not pass `currentPath` or manage the active section yourself.
-- **No border** — `AppShell` is rendered with `withBorder={false}`; borders between sections are provided by the individual components.
+- **Route tracking** — both `GaiaShellLayout` and `GaiaNavbar` read the current pathname via `useLocation()`. **`react-router` is required.**
+- **SubHeader title auto-resolution** — when `subHeaderProps` is provided, the title is resolved automatically by matching the current pathname against the active section's links (including nested children). Falls back to the section title if no link matches. Pass `title` explicitly to override.
+- **No border** — `AppShell` is rendered with `withBorder={false}` and `padding={0}`; padding is provided by the inner `Container` (`p="md"`).
 - **Main area** — `AppShell.Main` has a `#f0f0f0` background. Children are wrapped in a fluid `Container` with `p="md"`.
-- **SubHeader** — rendered inside `AppShell.Main` above the container when `subHeaderProps` is provided.
 
 ## Basic example
 
@@ -83,7 +82,9 @@ export function AppLayout({ children }) {
 }
 ```
 
-## With SubHeader
+## With SubHeader (auto title)
+
+Omit `title` — it is resolved automatically from the active nav link:
 
 ```tsx
 import { Button } from "@mantine/core";
@@ -92,9 +93,24 @@ import { Button } from "@mantine/core";
   headerProps={{ title: "GAIA" }}
   navbarProps={{ sections, resolveSection }}
   subHeaderProps={{
-    title: "Nodes",
     content: <Button size="xs">Add Node</Button>,
   }}
+>
+  {children}
+</GaiaShellLayout>
+```
+
+When the current path is `/infrastructure/nodes`, the SubHeader title will automatically show `"Nodes"`.
+
+## With SubHeader (explicit title override)
+
+Pass `title` to override the auto-resolved value:
+
+```tsx
+<GaiaShellLayout
+  headerProps={{ title: "GAIA" }}
+  navbarProps={{ sections, resolveSection }}
+  subHeaderProps={{ title: "Custom Page Title" }}
 >
   {children}
 </GaiaShellLayout>
