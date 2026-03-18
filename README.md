@@ -1,6 +1,6 @@
 # gaia-ui
 
-Shared UI shell components for GAIA-based projects. Built on top of Mantine — bring your own Mantine install.
+Shared UI shell components for GAIA-based projects. Built on top of [Mantine](https://mantine.dev/) — bring your own Mantine install.
 
 ## Installation
 
@@ -10,132 +10,106 @@ npm install @converge-cloudops/gaia-ui
 
 ### Peer dependencies
 
-`gaia-ui` does **not** bundle Mantine or React. Your project must have these installed with the proper versions:
-
 ```bash
-npm install @mantine/core @mantine/hooks @tabler/icons-react react react-dom
+npm install react@19.2.4 react-dom@19.2.4 @mantine/core@8.3.14 @mantine/hooks@8.3.14 @tabler/icons-react@3.36.0
+# required for navigation links (GaiaNavbar uses useLocation internally):
+npm install react-router@7.9.1
 ```
 
-If you use `GaiaNavbar` or `GaiaShellLayout`, you'll also need:
+### Import the stylesheet
 
-```bash
-npm install react-router
+```tsx
+import "@converge-cloudops/gaia-ui/styles.css";
 ```
 
 ---
 
-## Components
-
-### `GaiaShellLayout` — full shell in one import
-
-The easiest way to use the shell. Handles `AppShell`, the mobile burger, and disclosure state internally.
+## Quick example
 
 ```tsx
-import { GaiaShellLayout, GaiaNavbarSection } from "gaia-ui";
-import { Link, useLocation } from "react-router";
+import "@mantine/core/styles.css";
+import "@converge-cloudops/gaia-ui/styles.css";
 
-const NAV: GaiaNavbarSection = {
-  title: "Dashboard",
-  links: [
-    { label: "Overview", path: "/dashboard" },
-    { label: "Analytics", path: "/dashboard/analytics" },
-  ],
-};
+import { MantineProvider, createTheme } from "@mantine/core";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router";
+import { GaiaShellLayout } from "@converge-cloudops/gaia-ui";
+import { IconLayoutDashboard, IconChartBar } from "@tabler/icons-react";
 
-export function AppLayout({ children }) {
-  const { pathname } = useLocation();
+const theme = createTheme({
+  colors: {
+    convergeTeal: [
+      "#e6fafa","#d0f2f2","#a1e4e4","#6ed6d6","#3ecaca",
+      "#20bfbf","#0db8b8","#00a0a0","#008f8f","#007b7b",
+    ],
+  },
+  primaryColor: "convergeTeal",
+});
 
+const sections = [
+  {
+    title: "Dashboard",
+    links: [
+      { icon: IconLayoutDashboard, label: "Overview", link: "/dashboard" },
+      { icon: IconChartBar, label: "Analytics", link: "/dashboard/analytics" },
+    ],
+  },
+];
+
+function AppLayout() {
   return (
     <GaiaShellLayout
       headerProps={{
         title: "GAIA",
-        logoSrc: "/Cloud.png",
-        menuGroups: [
-          {
-            label: "Tropos",
-            items: [{ label: "Overview", onClick: () => {} }],
-          },
-        ],
+        menuGroups: [{ label: "Tropos", items: [{ label: "Overview", onClick: () => {} }] }],
       }}
       navbarProps={{
-        section: NAV,
-        currentPath: pathname,
-        renderLink: (link, isActive) => (
-          <Link
-            key={link.path}
-            to={link.path}
-            style={{ fontWeight: isActive ? "bold" : "normal" }}
-          >
-            {link.label}
-          </Link>
-        ),
+        sections,
+        resolveSection: () => "Dashboard",
       }}
     >
-      {children}
+      <Outlet />
     </GaiaShellLayout>
+  );
+}
+
+const router = createBrowserRouter([
+  {
+    element: <AppLayout />,
+    children: [
+      { path: "/dashboard", element: <div>Overview</div> },
+    ],
+  },
+]);
+
+export default function App() {
+  return (
+    <MantineProvider theme={theme}>
+      <RouterProvider router={router} />
+    </MantineProvider>
   );
 }
 ```
 
----
-
-### `GaiaHeader`
-
-Use standalone if you manage `AppShell` yourself.
-
-```tsx
-import { GaiaHeader } from "gaia-ui";
-
-<GaiaHeader
-  title="GAIA"
-  logoSrc="/Cloud.png"
-  menuGroups={[
-    { label: "Menu", items: [{ label: "Tropos", onClick: () => {} }] },
-  ]}
-  burgerSlot={
-    <Burger opened={opened} onClick={toggle} color="white" size="sm" />
-  }
-  rightSection={<Avatar />}
-/>;
-```
+> The `convergeTeal` custom color is required — active and hovered nav links use this token.
 
 ---
 
-### `GaiaNavbar`
+## Documentation
 
-Use standalone if you manage `AppShell` yourself.
+Full documentation is in the [`documentation/`](./documentation/) folder:
 
-```tsx
-import { GaiaNavbar } from "gaia-ui";
-import { Link, useLocation } from "react-router";
-
-const section = {
-  title: "Infrastructure",
-  links: [
-    { label: "Nodes", path: "/infrastructure/nodes" },
-    { label: "Networks", path: "/infrastructure/networks" },
-  ],
-};
-
-const { pathname } = useLocation();
-
-<GaiaNavbar
-  section={section}
-  currentPath={pathname}
-  renderLink={(link, isActive) => (
-    <Link key={link.path} to={link.path}>
-      {link.label}
-    </Link>
-  )}
-/>;
-```
+- [Getting Started](./documentation/getting-started.md) — peer deps, CSS import, PostCSS setup, `convergeTeal` theme config
+- [GaiaShellLayout](./documentation/components/GaiaShellLayout.md) — full shell in one component
+- [GaiaHeader](./documentation/components/GaiaHeader.md) — top header bar
+- [GaiaNavbar](./documentation/components/GaiaNavbar.md) — left sidebar navigation
+- [NavbarLinksGroup](./documentation/components/NavbarLinksGroup.md) — nav link primitive
+- [API Reference](./documentation/api-reference.md) — all exported TypeScript types
 
 ---
 
 ## Development
 
 ```bash
-npm install
 npm run build        # one-off build
 npm run build:watch  # rebuild on change
 npm run typecheck    # type check without emitting

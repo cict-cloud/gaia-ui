@@ -7,7 +7,7 @@ export interface GaiaShellLayoutProps {
   /** Props forwarded to GaiaHeader */
   headerProps: Omit<GaiaHeaderProps, "burgerSlot">;
   /** Props forwarded to GaiaNavbar */
-  navbarProps: Omit<GaiaNavbarProps, never>;
+  navbarProps: GaiaNavbarProps;
   /** Header height in px. Defaults to 50 */
   headerHeight?: number;
   /** Navbar width in px. Defaults to 240 */

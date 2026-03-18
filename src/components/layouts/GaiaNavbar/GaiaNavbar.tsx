@@ -1,10 +1,14 @@
 import { Box, ScrollArea, Title } from "@mantine/core";
+import { type Icon } from "@tabler/icons-react";
+import { useLocation } from "react-router";
+import { NavbarLinksGroup } from "../../links/NavbarLinksGroup";
 
 export interface GaiaNavbarLink {
+  icon: Icon;
   label: string;
-  path: string;
-  icon?: React.ReactNode;
-  links?: GaiaNavbarLink[];
+  link?: string;
+  initiallyOpened?: boolean;
+  links?: { label: string; link: string }[];
 }
 
 export interface GaiaNavbarSection {
@@ -13,18 +17,24 @@ export interface GaiaNavbarSection {
 }
 
 export interface GaiaNavbarProps {
-  /** The section to display based on current route context */
-  section: GaiaNavbarSection | undefined;
-  /** Current pathname used to highlight active links */
-  currentPath: string;
+  /** All nav sections — the correct one is resolved from the current pathname */
+  sections: GaiaNavbarSection[];
   /**
-   * Render prop for each nav link — gives you full control over how
-   * individual links are rendered (e.g. with react-router <Link>, next/link, etc.)
+   * Given the current pathname, return the title of the section to display.
+   *
+   * @example
+   * resolveSection={(pathname) => {
+   *   if (pathname.includes("/infrastructure")) return "Infrastructure";
+   *   return "Dashboard";
+   * }}
    */
-  renderLink: (link: GaiaNavbarLink, isActive: boolean) => React.ReactNode;
+  resolveSection: (pathname: string) => string;
 }
 
-export function GaiaNavbar({ section, currentPath, renderLink }: GaiaNavbarProps) {
+export function GaiaNavbar({ sections, resolveSection }: GaiaNavbarProps) {
+  const { pathname } = useLocation();
+  const section = sections.find((s) => s.title === resolveSection(pathname));
+
   if (!section) return null;
 
   return (
@@ -44,9 +54,13 @@ export function GaiaNavbar({ section, currentPath, renderLink }: GaiaNavbarProps
 
       <ScrollArea flex={1}>
         <Box>
-          {section.links.map((link) =>
-            renderLink(link, currentPath === link.path || currentPath.startsWith(link.path + "/"))
-          )}
+          {section.links.map((link) => (
+            <NavbarLinksGroup
+              key={link.label}
+              {...link}
+              currentPath={pathname}
+            />
+          ))}
         </Box>
       </ScrollArea>
     </Box>

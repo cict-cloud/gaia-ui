@@ -15,3 +15,9 @@ export type {
 
 export { GaiaShellLayout } from "./components/layouts/GaiaShellLayout";
 export type { GaiaShellLayoutProps } from "./components/layouts/GaiaShellLayout";
+
+export { NavbarLinksGroup } from "./components/links/NavbarLinksGroup";
+export type {
+  NavbarLinksGroupProps,
+  NavbarLinksGroupItem,
+} from "./components/links/NavbarLinksGroup";
