@@ -38,8 +38,16 @@ import { IconLayoutDashboard, IconChartBar } from "@tabler/icons-react";
 const theme = createTheme({
   colors: {
     convergeTeal: [
-      "#e6fafa","#d0f2f2","#a1e4e4","#6ed6d6","#3ecaca",
-      "#20bfbf","#0db8b8","#00a0a0","#008f8f","#007b7b",
+      "#e6fafa",
+      "#d0f2f2",
+      "#a1e4e4",
+      "#6ed6d6",
+      "#3ecaca",
+      "#20bfbf",
+      "#0db8b8",
+      "#00a0a0",
+      "#008f8f",
+      "#007b7b",
     ],
   },
   primaryColor: "convergeTeal",
@@ -60,7 +68,12 @@ function AppLayout() {
     <GaiaShellLayout
       headerProps={{
         title: "GAIA",
-        menuGroups: [{ label: "Tropos", items: [{ label: "Overview", onClick: () => {} }] }],
+        menuGroups: [
+          {
+            label: "Tropos",
+            items: [{ label: "Overview", onClick: () => {} }],
+          },
+        ],
       }}
       navbarProps={{
         sections,
@@ -75,9 +88,7 @@ function AppLayout() {
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
-    children: [
-      { path: "/dashboard", element: <div>Overview</div> },
-    ],
+    children: [{ path: "/dashboard", element: <div>Overview</div> }],
   },
 ]);
 
@@ -98,12 +109,12 @@ export default function App() {
 
 Full documentation is in the [`documentation/`](./documentation/) folder:
 
-- [Getting Started](./documentation/getting-started.md) — peer deps, CSS import, PostCSS setup, `convergeTeal` theme config
-- [GaiaShellLayout](./documentation/components/GaiaShellLayout.md) — full shell in one component
-- [GaiaHeader](./documentation/components/GaiaHeader.md) — top header bar
-- [GaiaNavbar](./documentation/components/GaiaNavbar.md) — left sidebar navigation
-- [NavbarLinksGroup](./documentation/components/NavbarLinksGroup.md) — nav link primitive
-- [API Reference](./documentation/api-reference.md) — all exported TypeScript types
+- [Getting Started](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/getting-started.md) — peer deps, CSS import, PostCSS setup, `convergeTeal` theme config
+- [GaiaShellLayout](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/components/GaiaShellLayout.md) — full shell in one component
+- [GaiaHeader](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/components/GaiaHeader.md) — top header bar
+- [GaiaNavbar](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/components/GaiaNavbar.md) — left sidebar navigation
+- [NavbarLinksGroup](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/components/NavbarLinksGroup.md) — nav link primitive
+- [API Reference](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/api-reference.md) — all exported TypeScript types
 
 ---
 
