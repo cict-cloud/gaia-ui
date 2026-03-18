@@ -1,13 +1,16 @@
-import { AppShell, Burger } from "@mantine/core";
+import { AppShell, Burger, Container } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { GaiaHeader, GaiaHeaderProps } from "../GaiaHeader";
 import { GaiaNavbar, GaiaNavbarProps } from "../GaiaNavbar";
+import { SubHeader, SubHeaderProps } from "../SubHeader";
 
 export interface GaiaShellLayoutProps {
   /** Props forwarded to GaiaHeader */
   headerProps: Omit<GaiaHeaderProps, "burgerSlot">;
   /** Props forwarded to GaiaNavbar */
   navbarProps: GaiaNavbarProps;
+  /** Props forwarded to SubHeader */
+  subHeaderProps?: SubHeaderProps;
   /** Header height in px. Defaults to 50 */
   headerHeight?: number;
   /** Navbar width in px. Defaults to 240 */
@@ -21,6 +24,7 @@ export interface GaiaShellLayoutProps {
 export function GaiaShellLayout({
   headerProps,
   navbarProps,
+  subHeaderProps,
   headerHeight = 50,
   navbarWidth = 240,
   navbarBreakpoint = "sm",
@@ -57,7 +61,12 @@ export function GaiaShellLayout({
         <GaiaNavbar {...navbarProps} />
       </AppShell.Navbar>
 
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main bg="#f0f0f0">
+        {subHeaderProps && <SubHeader {...subHeaderProps} />}
+        <Container fluid p="md" h="inherit">
+          {children}
+        </Container>
+      </AppShell.Main>
     </AppShell>
   );
 }

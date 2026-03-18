@@ -21,3 +21,6 @@ export type {
   NavbarLinksGroupProps,
   NavbarLinksGroupItem,
 } from "./components/links/NavbarLinksGroup";
+
+export { SubHeader } from "./components/layouts/SubHeader";
+export type { SubHeaderProps } from "./components/layouts/SubHeader";

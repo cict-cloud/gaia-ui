@@ -13,6 +13,7 @@ import type { GaiaShellLayoutProps } from "@converge-cloudops/gaia-ui";
 interface GaiaShellLayoutProps {
   headerProps: Omit<GaiaHeaderProps, "burgerSlot">;
   navbarProps: GaiaNavbarProps;
+  subHeaderProps?: SubHeaderProps;
   headerHeight?: number;           // default: 50
   navbarWidth?: number;            // default: 240
   navbarBreakpoint?: "xs" | "sm" | "md" | "lg" | "xl"; // default: "sm"
@@ -88,6 +89,22 @@ interface GaiaNavbarLink {
 ```
 
 > `GaiaNavbar` reads `pathname` internally via `useLocation()`. `react-router` is required.
+
+---
+
+## SubHeader
+
+```ts
+import { SubHeader } from "@converge-cloudops/gaia-ui";
+import type { SubHeaderProps } from "@converge-cloudops/gaia-ui";
+```
+
+```ts
+interface SubHeaderProps {
+  title: string;
+  content?: React.ReactNode;
+}
+```
 
 ---
 

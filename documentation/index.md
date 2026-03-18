@@ -8,6 +8,7 @@ Shared UI shell components for GAIA-based projects. Built on top of [Mantine](ht
 - [GaiaShellLayout](./components/GaiaShellLayout.md) — full app shell in one component
 - [GaiaHeader](./components/GaiaHeader.md) — top header bar
 - [GaiaNavbar](./components/GaiaNavbar.md) — left sidebar navigation
+- [SubHeader](./components/SubHeader.md) — secondary bar above page content
 - [NavbarLinksGroup](./components/NavbarLinksGroup.md) — individual nav link primitive
 - [API Reference](./api-reference.md) — all exported TypeScript types
 
@@ -16,8 +17,11 @@ Shared UI shell components for GAIA-based projects. Built on top of [Mantine](ht
 ```
 GaiaShellLayout          ← full app shell (wraps everything)
 ├── GaiaHeader           ← top header with logo, title, dropdown menus, right slot
-└── GaiaNavbar           ← left sidebar with scrollable nav sections
-    └── NavbarLinksGroup ← individual nav link with optional collapsible children
+├── GaiaNavbar           ← left sidebar with scrollable nav sections
+│   └── NavbarLinksGroup ← individual nav link with optional collapsible children
+└── AppShell.Main
+    ├── SubHeader (optional) ← secondary bar with page title and action slot
+    └── Container ← page content
 ```
 
 `GaiaShellLayout` is the recommended entry point — it composes the header and navbar and manages the mobile burger toggle internally. Use `GaiaHeader` and `GaiaNavbar` directly only if you need to manage your own `AppShell`.
