@@ -33,12 +33,12 @@
     "prepublishOnly": "npm run clean && npm run build"
   },
   "peerDependencies": {
-    "@mantine/core": "8.3.14",
-    "@mantine/hooks": "8.3.14",
-    "@tabler/icons-react": "3.36.0",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "react-router": "7.9.1"
+    "@mantine/core": ">=8.0.0",
+    "@mantine/hooks": ">=8.0.0",
+    "@tabler/icons-react": ">=3.0.0",
+    "react": ">=19.0.0",
+    "react-dom": ">=19.0.0",
+    "react-router": ">=7.0.0"
   },
   "peerDependenciesMeta": {
     "react-router": {
