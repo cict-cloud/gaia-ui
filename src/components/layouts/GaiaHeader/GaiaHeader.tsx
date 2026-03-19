@@ -1,10 +1,11 @@
 import cloudLogo from "../../../assets/cloud.png";
 import { Box, Button, Group, Image, Menu, Title } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
+import { useNavigate } from "react-router";
 
 export interface GaiaHeaderMenuItem {
   label: string;
-  onClick?: () => void;
+  path: string;
 }
 
 export interface GaiaHeaderMenuGroup {
@@ -35,6 +36,7 @@ export function GaiaHeader({
   rightSection,
   burgerSlot,
 }: GaiaHeaderProps) {
+  const navigate = useNavigate();
   return (
     <Box
       h="inherit"
@@ -72,7 +74,10 @@ export function GaiaHeader({
               </Menu.Target>
               <Menu.Dropdown>
                 {group.items.map((item) => (
-                  <Menu.Item key={item.label} onClick={item.onClick}>
+                  <Menu.Item
+                    key={item.label}
+                    onClick={() => navigate(item.path)}
+                  >
                     {item.label}
                   </Menu.Item>
                 ))}
