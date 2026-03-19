@@ -62,8 +62,8 @@ export function AppLayout({ children }) {
           {
             label: "Tropos",
             items: [
-              { label: "Overview", onClick: () => {} },
-              { label: "Topology", onClick: () => {} },
+              { label: "Overview", path: "/tropos" },
+              { label: "Topology", path: "/tropos/topology" },
             ],
           },
         ],

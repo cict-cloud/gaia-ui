@@ -33,7 +33,7 @@ interface GaiaHeaderMenuGroup {
 ```ts
 interface GaiaHeaderMenuItem {
   label: string;
-  onClick?: () => void;
+  path: string;
 }
 ```
 
@@ -56,25 +56,20 @@ Background is `black` with a `1px` bottom border using `--mantine-color-dark-4`.
 ```tsx
 import { AppShell, Burger } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useNavigate } from "react-router";
 import { GaiaHeader } from "@converge-cloudops/gaia-ui";
 
 export function MyShell({ children }) {
   const [opened, { toggle }] = useDisclosure(false);
-  const navigate = useNavigate();
 
-  const menuGroups = useMemo(
-    () => [
-      {
-        label: "Tropos",
-        items: [
-          { label: "Overview", onClick: () => navigate("/tropos") },
-          { label: "Topology", onClick: () => navigate("/tropos/topology") },
-        ],
-      },
-    ],
-    [navigate],
-  );
+  const menuGroups = [
+    {
+      label: "Tropos",
+      items: [
+        { label: "Overview", path: "/tropos" },
+        { label: "Topology", path: "/tropos/topology" },
+      ],
+    },
+  ];
 
   return (
     <AppShell
@@ -126,15 +121,15 @@ The logo is constrained to `max-width: 120px` and `max-height: 100%` with `fit="
     {
       label: "Tropos",
       items: [
-        { label: "Overview", onClick: () => {} },
-        { label: "Topology", onClick: () => {} },
+        { label: "Overview", path: "/tropos" },
+        { label: "Topology", path: "/tropos/topology" },
       ],
     },
     {
       label: "Stratos",
       items: [
-        { label: "Clusters", onClick: () => {} },
-        { label: "Workloads", onClick: () => {} },
+        { label: "Clusters", path: "/stratos/clusters" },
+        { label: "Workloads", path: "/stratos/workloads" },
       ],
     },
   ]}

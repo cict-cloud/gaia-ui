@@ -71,7 +71,7 @@ function AppLayout() {
         menuGroups: [
           {
             label: "Tropos",
-            items: [{ label: "Overview", onClick: () => {} }],
+            items: [{ label: "Overview", path: "/tropos" }],
           },
         ],
       }}

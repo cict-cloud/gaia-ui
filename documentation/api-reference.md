@@ -53,7 +53,7 @@ interface GaiaHeaderMenuGroup {
 
 interface GaiaHeaderMenuItem {
   label: string;
-  onClick?: () => void;
+  path: string;
 }
 ```
 
