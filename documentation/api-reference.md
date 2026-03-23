@@ -145,11 +145,16 @@ import { GaiaShellProvider } from "@converge-cloudops/gaia-ui";
 ```
 
 ```ts
+// Props — user and setUser are managed internally
 interface GaiaShellProviderProps {
-  value: GaiaShellContextValue;
+  value: {
+    remotes: GaiaRemoteConfigs;
+  };
   children: React.ReactNode;
 }
 ```
+
+`GaiaShellProvider` owns `user` state internally. Do not pass `user` or `setUser` as props — use `useSetGaiaShellUser()` to update the user from inside the tree.
 
 ---
 
@@ -159,6 +164,8 @@ interface GaiaShellProviderProps {
 import {
   GaiaShellContext,
   useGaiaShellContext,
+  useGaiaShellUser,
+  useSetGaiaShellUser,
   useGaiaRemoteConfig,
 } from "@converge-cloudops/gaia-ui";
 
@@ -185,6 +192,7 @@ interface GaiaRemoteConfigs {
 
 interface GaiaShellContextValue {
   user: GaiaShellUser | null;
+  setUser: (user: GaiaShellUser | null) => void;
   remotes: GaiaRemoteConfigs;
 }
 ```
@@ -194,6 +202,12 @@ interface GaiaShellContextValue {
 ```ts
 // Returns the full context value
 function useGaiaShellContext(): GaiaShellContextValue
+
+// Returns only the current user
+function useGaiaShellUser(): GaiaShellUser | null
+
+// Returns the setUser setter
+function useSetGaiaShellUser(): (user: GaiaShellUser | null) => void
 
 // Returns the config for a single named remote (type-narrowed)
 function useGaiaRemoteConfig<K extends keyof GaiaRemoteConfigs>(

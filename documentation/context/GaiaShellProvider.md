@@ -1,12 +1,14 @@
 # GaiaShellProvider
 
-A thin React context provider that injects the authenticated user and remote service configurations into the component tree. Wrap your app (or any subtree) with this component to make shell context available to all descendants.
+A React context provider that owns the authenticated user state and makes it — along with remote service configurations — available to the entire component tree.
+
+Unlike a plain context provider, `GaiaShellProvider` manages `user` internally via `useState`. Consumers never pass `user` or `setUser` as props; they read and update the user through the hooks exported by [`GaiaShellContext`](./GaiaShellContext.md).
 
 ## Import
 
 ```ts
 import { GaiaShellProvider } from "@converge-cloudops/gaia-ui";
-import type { GaiaShellContextValue } from "@converge-cloudops/gaia-ui";
+import type { GaiaRemoteConfigs } from "@converge-cloudops/gaia-ui";
 ```
 
 ---
@@ -15,17 +17,19 @@ import type { GaiaShellContextValue } from "@converge-cloudops/gaia-ui";
 
 ```ts
 interface GaiaShellProviderProps {
-  value: GaiaShellContextValue;
+  value: {
+    remotes: GaiaRemoteConfigs;
+  };
   children: React.ReactNode;
 }
 ```
 
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
-| `value` | `GaiaShellContextValue` | Yes | The context value to provide — contains `user` and `remotes` |
+| `value.remotes` | `GaiaRemoteConfigs` | Yes | Remote service base URL map (see [`GaiaShellContext`](./GaiaShellContext.md#gaiaremoteconfigs)) |
 | `children` | `React.ReactNode` | Yes | The component subtree that will have access to the context |
 
-See [`GaiaShellContext`](./GaiaShellContext.md) for the full `GaiaShellContextValue` type definition.
+> `user` and `setUser` are **not** accepted as props — the provider creates and owns that state itself. To update the user, call [`useSetGaiaShellUser()`](./GaiaShellContext.md#usesetgaiashelluser) from any descendant component.
 
 ---
 
@@ -35,24 +39,17 @@ See [`GaiaShellContext`](./GaiaShellContext.md) for the full `GaiaShellContextVa
 import { MantineProvider } from "@mantine/core";
 import { GaiaShellProvider } from "@converge-cloudops/gaia-ui";
 
-const shellValue = {
-  user: {
-    id: "1",
-    username: "jdoe",
-    email: "jdoe@example.com",
-    is_superuser: false,
-    permissions: ["inventory.az.read", "inventory.az.write", "tropos.network.read"],
-  },
-  remotes: {
-    tropos: { baseUrl: "https://tropos.internal" },
-    pleco: { baseUrl: "https://pleco.internal" },
-  },
-};
-
 export default function App() {
   return (
     <MantineProvider theme={theme}>
-      <GaiaShellProvider value={shellValue}>
+      <GaiaShellProvider
+        value={{
+          remotes: {
+            tropos: { baseUrl: "https://tropos.internal" },
+            pleco: { baseUrl: "https://pleco.internal" },
+          },
+        }}
+      >
         <RouterProvider router={router} />
       </GaiaShellProvider>
     </MantineProvider>
@@ -60,74 +57,85 @@ export default function App() {
 }
 ```
 
+`user` starts as `null`. Call `useSetGaiaShellUser()` inside a descendant component to populate it after authentication.
+
 ---
 
-## Usage with dynamic user data
+## Setting the user after login
 
-In practice the `user` object comes from an auth fetch. Pass `null` while loading and supply the resolved user once the request completes.
+Because `GaiaShellProvider` owns user state, the auth fetch happens inside the tree — typically in an initialisation component or after a login action.
 
 ```tsx
-import { useState, useEffect } from "react";
-import { GaiaShellProvider } from "@converge-cloudops/gaia-ui";
-import type { GaiaShellUser } from "@converge-cloudops/gaia-ui";
+import { useEffect } from "react";
+import { useSetGaiaShellUser } from "@converge-cloudops/gaia-ui";
 
-export default function App() {
-  const [user, setUser] = useState<GaiaShellUser | null>(null);
+function AuthInitializer({ children }: { children: React.ReactNode }) {
+  const setUser = useSetGaiaShellUser();
 
   useEffect(() => {
-    fetch("/api/me")
-      .then((res) => res.json())
+    fetch("/api/me", { credentials: "include" })
+      .then((res) => (res.ok ? res.json() : null))
       .then(setUser);
   }, []);
 
-  return (
-    <GaiaShellProvider
-      value={{
-        user,
-        remotes: {
-          tropos: { baseUrl: import.meta.env.VITE_TROPOS_URL },
-        },
-      }}
-    >
-      <RouterProvider router={router} />
-    </GaiaShellProvider>
-  );
+  return <>{children}</>;
 }
+```
+
+Place `AuthInitializer` inside `GaiaShellProvider`:
+
+```tsx
+<GaiaShellProvider value={{ remotes: { tropos: { baseUrl: "https://tropos.internal" } } }}>
+  <AuthInitializer>
+    <RouterProvider router={router} />
+  </AuthInitializer>
+</GaiaShellProvider>
 ```
 
 ---
 
-## Consuming the context
+## Reading the user
 
-Use the hooks exported from [`GaiaShellContext`](./GaiaShellContext.md) in any descendant component:
+Use the focused hooks rather than `useGaiaShellContext` when you only need one piece of state:
 
 ```tsx
-import { useGaiaShellContext, useGaiaRemoteConfig } from "@converge-cloudops/gaia-ui";
+import { useGaiaShellUser, useSetGaiaShellUser } from "@converge-cloudops/gaia-ui";
 
-// Access full context
-const { user, remotes } = useGaiaShellContext();
+// Read only
+const user = useGaiaShellUser();
 
-// Access a single remote config (type-narrowed)
-const tropos = useGaiaRemoteConfig("tropos");
+// Write only
+const setUser = useSetGaiaShellUser();
+```
+
+For permission checks:
+
+```tsx
+const user = useGaiaShellUser();
+const canRead = user?.permissions.includes("inventory.az.read") ?? false;
 ```
 
 ---
 
 ## Placement in the tree
 
-`GaiaShellProvider` must be an ancestor of any component that calls `useGaiaShellContext` or `useGaiaRemoteConfig`. Place it as high as needed — typically at the app root, just inside `MantineProvider`.
-
 ```
 <MantineProvider>           ← Mantine styles and theming
-  <GaiaShellProvider>       ← user + remotes context
-    <RouterProvider>        ← routing
-      <GaiaShellLayout>     ← shell chrome
-        <Outlet />          ← page content
+  <GaiaShellProvider>       ← owns user state + remotes context
+    <ReduxProvider>         ← (if using RTK Query)
+      <TroposConfigProvider>← reads remotes, sets RTK Query base URL
+        <RouterProvider>    ← routing
+          <GaiaShellLayout> ← shell chrome
+            <Outlet />      ← page content
 ```
+
+`GaiaShellProvider` must be an ancestor of:
+- Any component calling `useGaiaShellUser`, `useSetGaiaShellUser`, `useGaiaShellContext`, or `useGaiaRemoteConfig`
+- Any `createRemoteConfigProvider`-generated provider (e.g. `TroposConfigProvider`)
 
 ---
 
 ## Notes
 
-- `GaiaShellProvider` is purely a context provider — it holds no internal state and performs no fetching. All state management (auth, remote URLs) lives in the consuming application.
-- Without a `GaiaShellProvider` in the tree, hooks fall back to `{ user: null, remotes: {} }`. This is safe for isolated component rendering (e.g., Storybook) but means all remote config lookups will return `undefined`.
+- `user` is initialised to `null` on every mount. If your app needs the user to persist across page refreshes, fetch and call `setUser` in an initialisation effect (see example above).
+- `remotes` is not reactive — it is set once at mount via the `value` prop. If remote URLs change dynamically, re-mount the provider with an updated `value`.

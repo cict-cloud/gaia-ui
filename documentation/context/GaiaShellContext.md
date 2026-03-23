@@ -1,6 +1,6 @@
 # GaiaShellContext
 
-The React context that carries shared shell state — the authenticated user and remote service configurations — down to any component in the tree.
+The React context that carries shared shell state — the authenticated user, a setter for that user, and remote service configurations — down to any component in the tree.
 
 ## Exports
 
@@ -8,6 +8,8 @@ The React context that carries shared shell state — the authenticated user and
 import {
   GaiaShellContext,
   useGaiaShellContext,
+  useGaiaShellUser,
+  useSetGaiaShellUser,
   useGaiaRemoteConfig,
 } from "@converge-cloudops/gaia-ui";
 
@@ -42,7 +44,7 @@ interface GaiaShellUser {
 | `username` | `string` | Display username |
 | `email` | `string` | User email address |
 | `is_superuser` | `boolean` | Whether the user has superuser privileges |
-| `permissions` | `string[]` | List of permission strings granted to the user (e.g. `"inventory.az.read"`, `"inventory.az.write"`) |
+| `permissions` | `string[]` | Permission strings granted to the user (e.g. `"inventory.az.read"`, `"inventory.az.write"`) |
 
 ---
 
@@ -72,6 +74,7 @@ The full value stored in the context.
 ```ts
 interface GaiaShellContextValue {
   user: GaiaShellUser | null;
+  setUser: (user: GaiaShellUser | null) => void;
   remotes: GaiaRemoteConfigs;
 }
 ```
@@ -79,7 +82,10 @@ interface GaiaShellContextValue {
 | Field | Type | Description |
 |-------|------|-------------|
 | `user` | `GaiaShellUser \| null` | The authenticated user, or `null` if unauthenticated |
+| `setUser` | `(user: GaiaShellUser \| null) => void` | Updates the user stored in `GaiaShellProvider`'s internal state |
 | `remotes` | `GaiaRemoteConfigs` | Remote service base URL map |
+
+> `user` and `setUser` are managed internally by [`GaiaShellProvider`](./GaiaShellProvider.md). Consumers do not pass these as props — they read and update them via the hooks below.
 
 ---
 
@@ -87,7 +93,7 @@ interface GaiaShellContextValue {
 
 ### `useGaiaShellContext()`
 
-Returns the full context value. Use this when you need access to both `user` and `remotes`.
+Returns the full context value. Use this when you need access to `user`, `setUser`, and `remotes` together.
 
 ```ts
 function useGaiaShellContext(): GaiaShellContextValue
@@ -104,17 +110,68 @@ function UserGreeting() {
   if (!user) return <span>Guest</span>;
   return <span>Hello, {user.username}</span>;
 }
+```
+
+---
+
+### `useGaiaShellUser()`
+
+Returns only the current user. Prefer this over `useGaiaShellContext` when you only need to read the user.
+
+```ts
+function useGaiaShellUser(): GaiaShellUser | null
+```
+
+**Example**
+
+```tsx
+import { useGaiaShellUser } from "@converge-cloudops/gaia-ui";
 
 function InventoryActions() {
-  const { user } = useGaiaShellContext();
+  const user = useGaiaShellUser();
 
   const canWrite = user?.permissions.includes("inventory.az.write") ?? false;
 
-  return (
-    <div>
-      <button disabled={!canWrite}>Add Item</button>
-    </div>
-  );
+  return <button disabled={!canWrite}>Add Item</button>;
+}
+```
+
+---
+
+### `useSetGaiaShellUser()`
+
+Returns the `setUser` setter from the context. Use this to update the authenticated user after a login or logout.
+
+```ts
+function useSetGaiaShellUser(): (user: GaiaShellUser | null) => void
+```
+
+**Example**
+
+```tsx
+import { useSetGaiaShellUser } from "@converge-cloudops/gaia-ui";
+
+function LoginButton() {
+  const setUser = useSetGaiaShellUser();
+
+  async function handleLogin() {
+    const res = await fetch("/api/login", { method: "POST", credentials: "include" });
+    const user = await res.json();
+    setUser(user);
+  }
+
+  return <button onClick={handleLogin}>Log in</button>;
+}
+
+function LogoutButton() {
+  const setUser = useSetGaiaShellUser();
+
+  async function handleLogout() {
+    await fetch("/api/logout", { method: "POST", credentials: "include" });
+    setUser(null);
+  }
+
+  return <button onClick={handleLogout}>Log out</button>;
 }
 ```
 
@@ -122,7 +179,7 @@ function InventoryActions() {
 
 ### `useGaiaRemoteConfig(remote)`
 
-Returns the configuration for a single named remote service. Prefer this over `useGaiaShellContext` when you only need one remote's config — the type is narrowed to the specific service type.
+Returns the configuration for a single named remote service. The return type is narrowed to the specific service's config type.
 
 ```ts
 function useGaiaRemoteConfig<K extends keyof GaiaRemoteConfigs>(
@@ -158,11 +215,12 @@ When no `GaiaShellProvider` is present in the tree, the context falls back to:
 ```ts
 {
   user: null,
+  setUser: () => {},
   remotes: {},
 }
 ```
 
-This means `useGaiaRemoteConfig` will return `undefined` for all keys outside a provider. Always wrap your app (or at least the subtree that needs shell state) with [`GaiaShellProvider`](./GaiaShellProvider.md).
+`setUser` is a no-op outside a provider. Always wrap your app with [`GaiaShellProvider`](./GaiaShellProvider.md) before calling any of the hooks above.
 
 ---
 
