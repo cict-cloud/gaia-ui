@@ -12,6 +12,8 @@ Shared UI shell components for GAIA-based projects. Built on top of [Mantine](ht
 - [NavbarLinksGroup](./components/NavbarLinksGroup.md) — individual nav link primitive
 - [GaiaShellProvider](./context/GaiaShellProvider.md) — context provider for user and remote configs
 - [GaiaShellContext](./context/GaiaShellContext.md) — context types and hooks (`useGaiaShellContext`, `useGaiaRemoteConfig`)
+- [createRemoteBaseQuery](./api/createRemoteBaseQuery.md) — RTK Query base query with a mutable base URL
+- [createRemoteConfigProvider](./api/createRemoteConfigProvider.md) — wires remote URL from context into an RTK Query API
 - [API Reference](./api-reference.md) — all exported TypeScript types
 
 ## Quick overview

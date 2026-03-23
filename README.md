@@ -116,6 +116,8 @@ Full documentation is in the [`documentation/`](./documentation/) folder:
 - [NavbarLinksGroup](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/components/NavbarLinksGroup.md) — nav link primitive
 - [GaiaShellProvider](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/context/GaiaShellProvider.md) — context provider for user and remote configs
 - [GaiaShellContext](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/context/GaiaShellContext.md) — context types and hooks (`useGaiaShellContext`, `useGaiaRemoteConfig`)
+- [createRemoteBaseQuery](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/api/createRemoteBaseQuery.md) — RTK Query base query with a mutable base URL
+- [createRemoteConfigProvider](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/api/createRemoteConfigProvider.md) — wires remote URL from context into an RTK Query API
 - [API Reference](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/api-reference.md) — all exported TypeScript types
 
 ---

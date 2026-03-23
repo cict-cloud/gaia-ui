@@ -203,6 +203,55 @@ function useGaiaRemoteConfig<K extends keyof GaiaRemoteConfigs>(
 
 ---
 
+## createRemoteBaseQuery
+
+```ts
+import { createRemoteBaseQuery } from "@converge-cloudops/gaia-ui";
+```
+
+```ts
+function createRemoteBaseQuery(
+  standaloneUrl: string,
+  path?: string
+): {
+  baseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>;
+  setBaseUrl: (url: string) => void;
+}
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `standaloneUrl` | `string` | Fallback base URL (used when no remote config is injected) |
+| `path` | `string \| undefined` | Optional path segment appended to the base URL |
+
+Returns `baseQuery` (pass to `createApi`) and `setBaseUrl` (pass to `createRemoteConfigProvider`).
+
+---
+
+## createRemoteConfigProvider
+
+```ts
+import { createRemoteConfigProvider } from "@converge-cloudops/gaia-ui";
+```
+
+```ts
+function createRemoteConfigProvider(
+  remote: keyof GaiaRemoteConfigs,
+  setBaseUrl: (url: string) => void,
+  standaloneUrl: string
+): ({ children }: { children: ReactNode }) => JSX.Element | null
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `remote` | `keyof GaiaRemoteConfigs` | Remote key to read from `GaiaShellContext` (e.g. `"tropos"`, `"pleco"`) |
+| `setBaseUrl` | `(url: string) => void` | Setter from `createRemoteBaseQuery` |
+| `standaloneUrl` | `string` | Fallback URL when no context config is present |
+
+Returns a React component that reads the remote URL from context, calls `setBaseUrl`, and renders `null` until the URL is set.
+
+---
+
 ## Package exports
 
 ```ts
