@@ -29,3 +29,7 @@ export type { SubHeaderProps } from "./components/layouts/SubHeader";
 export { GaiaShellProvider } from "./context/GaiaShellProvider";
 export { useGaiaShellContext, useGaiaRemoteConfig } from "./context/GaiaShellContext";
 export type { GaiaShellContextValue, GaiaRemoteConfigs, GaiaShellUser } from "./context/GaiaShellContext";
+
+// API REMOTE BASEQUERY
+export { createRemoteBaseQuery } from "./api/createRemoteBaseQuery"
+export { createRemoteConfigProvider } from "./api/createRemoteConfigProvider"
