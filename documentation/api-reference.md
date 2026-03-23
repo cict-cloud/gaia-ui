@@ -138,6 +138,71 @@ interface NavbarLinksGroupItem {
 
 ---
 
+## GaiaShellProvider
+
+```ts
+import { GaiaShellProvider } from "@converge-cloudops/gaia-ui";
+```
+
+```ts
+interface GaiaShellProviderProps {
+  value: GaiaShellContextValue;
+  children: React.ReactNode;
+}
+```
+
+---
+
+## GaiaShellContext
+
+```ts
+import {
+  GaiaShellContext,
+  useGaiaShellContext,
+  useGaiaRemoteConfig,
+} from "@converge-cloudops/gaia-ui";
+
+import type {
+  GaiaShellContextValue,
+  GaiaShellUser,
+  GaiaRemoteConfigs,
+} from "@converge-cloudops/gaia-ui";
+```
+
+```ts
+interface GaiaShellUser {
+  id: string;
+  username: string;
+  email: string;
+  is_superuser: boolean;
+  permissions: string[];
+}
+
+interface GaiaRemoteConfigs {
+  tropos?: { baseUrl: string };
+  pleco?: { baseUrl: string };
+}
+
+interface GaiaShellContextValue {
+  user: GaiaShellUser | null;
+  remotes: GaiaRemoteConfigs;
+}
+```
+
+**Hooks**
+
+```ts
+// Returns the full context value
+function useGaiaShellContext(): GaiaShellContextValue
+
+// Returns the config for a single named remote (type-narrowed)
+function useGaiaRemoteConfig<K extends keyof GaiaRemoteConfigs>(
+  remote: K
+): GaiaRemoteConfigs[K]
+```
+
+---
+
 ## Package exports
 
 ```ts

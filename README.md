@@ -114,6 +114,8 @@ Full documentation is in the [`documentation/`](./documentation/) folder:
 - [GaiaHeader](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/components/GaiaHeader.md) — top header bar
 - [GaiaNavbar](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/components/GaiaNavbar.md) — left sidebar navigation
 - [NavbarLinksGroup](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/components/NavbarLinksGroup.md) — nav link primitive
+- [GaiaShellProvider](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/context/GaiaShellProvider.md) — context provider for user and remote configs
+- [GaiaShellContext](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/context/GaiaShellContext.md) — context types and hooks (`useGaiaShellContext`, `useGaiaRemoteConfig`)
 - [API Reference](https://github.com/cict-cloud/gaia-ui/blob/main/documentation/api-reference.md) — all exported TypeScript types
 
 ---

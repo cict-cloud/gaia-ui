@@ -10,6 +10,8 @@ Shared UI shell components for GAIA-based projects. Built on top of [Mantine](ht
 - [GaiaNavbar](./components/GaiaNavbar.md) — left sidebar navigation
 - [SubHeader](./components/SubHeader.md) — secondary bar above page content
 - [NavbarLinksGroup](./components/NavbarLinksGroup.md) — individual nav link primitive
+- [GaiaShellProvider](./context/GaiaShellProvider.md) — context provider for user and remote configs
+- [GaiaShellContext](./context/GaiaShellContext.md) — context types and hooks (`useGaiaShellContext`, `useGaiaRemoteConfig`)
 - [API Reference](./api-reference.md) — all exported TypeScript types
 
 ## Quick overview
