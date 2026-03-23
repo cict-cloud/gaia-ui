@@ -1,7 +1,7 @@
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
-export function createRemoteBaseQuery(standaloneUrl: string) {
+export function createRemoteBaseQuery(standaloneUrl: string, path?: string) {
   let _baseUrl = standaloneUrl;
 
   function setBaseUrl(url: string) {
@@ -11,7 +11,7 @@ export function createRemoteBaseQuery(standaloneUrl: string) {
   const baseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> =
     async (args, api, extraOptions) => {
       return fetchBaseQuery({
-        baseUrl: _baseUrl,
+        baseUrl: path ? `${_baseUrl}/${path}` : _baseUrl,
         credentials: "include",
       })(args, api, extraOptions);
     };
