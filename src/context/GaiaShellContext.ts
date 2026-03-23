@@ -6,11 +6,6 @@ export interface GaiaRemoteConfigs {
   // Add more systems here
 }
 
-type Department = {
-  code: string;
-  name: string;
-};
-
 export interface GaiaShellUser {
   id: string;
   username: string;
@@ -21,16 +16,22 @@ export interface GaiaShellUser {
 
 export interface GaiaShellContextValue {
   user: GaiaShellUser | null;
+  setUser: (user: GaiaShellUser | null) => void;
   remotes: GaiaRemoteConfigs;
 }
 
 const GaiaShellContext = createContext<GaiaShellContextValue>({
   user: null,
+  setUser: () => { },
   remotes: {},
 });
 
+// CONTEXT
 export const useGaiaShellContext = () => useContext(GaiaShellContext);
 
+// HOOK FOR SPECIFIC CONTEXT
+export const useGaiaShellUser = () => useContext(GaiaShellContext).user;
+export const useSetGaiaShellUser = () => useContext(GaiaShellContext).setUser;
 export const useGaiaRemoteConfig = <K extends keyof GaiaRemoteConfigs>(
   remote: K
 ): GaiaRemoteConfigs[K] => {

@@ -27,7 +27,7 @@ export type { SubHeaderProps } from "./components/layouts/SubHeader";
 
 // CONTEXT PROVIDER
 export { GaiaShellProvider } from "./context/GaiaShellProvider";
-export { useGaiaShellContext, useGaiaRemoteConfig } from "./context/GaiaShellContext";
+export { useGaiaShellContext, useGaiaRemoteConfig, useGaiaShellUser, useSetGaiaShellUser } from "./context/GaiaShellContext";
 export type { GaiaShellContextValue, GaiaRemoteConfigs, GaiaShellUser } from "./context/GaiaShellContext";
 
 // API REMOTE BASEQUERY
