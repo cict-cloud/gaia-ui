@@ -52,6 +52,8 @@ function RemoteConfigProvider({ children }: { children: ReactNode }): JSX.Elemen
 
 ### 1. Create the API and provider
 
+Define your RTK Query API and the config provider in the same module. **All three must be exported** so that `App.tsx` (and any other file in the consuming app) can import them.
+
 ```ts
 // troposApi.ts
 import { createApi } from "@reduxjs/toolkit/query/react";
@@ -79,6 +81,8 @@ export const TroposConfigProvider = createRemoteConfigProvider(
 );
 ```
 
+> `TroposConfigProvider` must be exported from `troposApi.ts` so it can be imported in `App.tsx`. Without the export the component is not accessible outside its module.
+
 ### 2. Wrap your app
 
 `TroposConfigProvider` must be placed **inside** `GaiaShellProvider` so it can read the context, and **outside** any component that calls the `troposApi` hooks.
@@ -96,7 +100,6 @@ export default function App() {
     <MantineProvider theme={theme}>
       <GaiaShellProvider
         value={{
-          user: currentUser,
           remotes: {
             tropos: { baseUrl: "https://tropos.internal" },
           },
@@ -137,14 +140,23 @@ function InventoryPage() {
 
 ## Multiple remotes
 
-Each remote gets its own provider, created separately:
+Each remote gets its own provider, created separately. Export everything from the module so it is accessible to `App.tsx` and any component file that calls the RTK Query hooks:
 
 ```ts
 // plecoApi.ts
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { createRemoteBaseQuery, createRemoteConfigProvider } from "@converge-cloudops/gaia-ui";
 
 export const { baseQuery: plecoBaseQuery, setBaseUrl: setPlecoBaseUrl } =
   createRemoteBaseQuery("http://localhost:8001", "api/v1");
+
+export const plecoApi = createApi({
+  reducerPath: "plecoApi",
+  baseQuery: plecoBaseQuery,
+  endpoints: (builder) => ({
+    // ...
+  }),
+});
 
 export const PlecoConfigProvider = createRemoteConfigProvider(
   "pleco",

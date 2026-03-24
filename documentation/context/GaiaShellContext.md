@@ -6,7 +6,6 @@ The React context that carries shared shell state — the authenticated user, a 
 
 ```ts
 import {
-  GaiaShellContext,
   useGaiaShellContext,
   useGaiaShellUser,
   useSetGaiaShellUser,
@@ -226,8 +225,4 @@ When no `GaiaShellProvider` is present in the tree, the context falls back to:
 
 ## Direct context access
 
-`GaiaShellContext` is also exported for cases where you need to use `React.use()` or pass the context object directly (e.g. to a context bridge).
-
-```ts
-import { GaiaShellContext } from "@converge-cloudops/gaia-ui";
-```
+The raw `GaiaShellContext` object is not exported from the library. Use the focused hooks (`useGaiaShellUser`, `useSetGaiaShellUser`, `useGaiaRemoteConfig`) or `useGaiaShellContext` for full context access. If you need to pass the context to a context bridge, use `React.createContext` in your own app layer and sync it from a hook.

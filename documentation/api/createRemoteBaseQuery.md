@@ -75,7 +75,7 @@ At this point `troposApi` will call `http://localhost:8000/api/v1/inventory/az/`
 
 ## Wiring the base URL from context
 
-Pass `setBaseUrl` to [`createRemoteConfigProvider`](./createRemoteConfigProvider.md) so the URL is overridden with whatever value `GaiaShellProvider` supplies at runtime:
+Pass `setBaseUrl` to [`createRemoteConfigProvider`](./createRemoteConfigProvider.md) so the URL is overridden with whatever value `GaiaShellProvider` supplies at runtime. **Export the provider** so `App.tsx` can import it:
 
 ```ts
 // TroposConfigProvider.ts
@@ -88,6 +88,8 @@ export const TroposConfigProvider = createRemoteConfigProvider(
   "http://localhost:8000"
 );
 ```
+
+> `TroposConfigProvider` must be exported from its module. Without the export the component cannot be imported in `App.tsx` or any other file in the consuming app.
 
 Then wrap the parts of your app that depend on the Tropos API:
 
