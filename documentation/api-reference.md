@@ -77,6 +77,7 @@ interface GaiaNavbarProps {
 }
 
 interface GaiaNavbarSection {
+  system: keyof GaiaRemoteConfigs; // "tropos" | "pleco" | ...
   title: string;
   links: GaiaNavbarLink[];
 }
@@ -162,7 +163,6 @@ interface GaiaShellProviderProps {
 
 ```ts
 import {
-  GaiaShellContext,
   useGaiaShellContext,
   useGaiaShellUser,
   useSetGaiaShellUser,

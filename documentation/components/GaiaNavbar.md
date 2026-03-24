@@ -22,7 +22,8 @@ import type { GaiaNavbarProps, GaiaNavbarSection, GaiaNavbarLink } from "@conver
 
 ```ts
 interface GaiaNavbarSection {
-  title: string;          // Section heading shown at the top of the navbar
+  system: keyof GaiaRemoteConfigs; // Must match a key registered in GaiaRemoteConfigs ("tropos" | "pleco" | ...)
+  title: string;                   // Section heading shown at the top of the navbar
   links: GaiaNavbarLink[];
 }
 ```
@@ -66,12 +67,14 @@ import { IconServer, IconNetwork, IconLayoutDashboard } from "@tabler/icons-reac
 
 const sections: GaiaNavbarSection[] = [
   {
+    system: "gaia",
     title: "Dashboard",
     links: [
       { icon: IconLayoutDashboard, label: "Overview", link: "/dashboard" },
     ],
   },
   {
+    system: "gaia",
     title: "Infrastructure",
     links: [
       { icon: IconServer, label: "Nodes", link: "/infrastructure/nodes" },
@@ -129,6 +132,7 @@ Provide a `links` array on a `GaiaNavbarLink` to make it a collapsible group.
 ```tsx
 const sections: GaiaNavbarSection[] = [
   {
+    system: "gaia",
     title: "Infrastructure",
     links: [
       {

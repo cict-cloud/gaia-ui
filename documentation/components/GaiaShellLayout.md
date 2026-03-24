@@ -39,6 +39,7 @@ import { IconLayoutDashboard, IconChartBar, IconServer } from "@tabler/icons-rea
 
 const sections: GaiaNavbarSection[] = [
   {
+    system: "gaia",
     title: "Dashboard",
     links: [
       { icon: IconLayoutDashboard, label: "Overview", link: "/dashboard" },
@@ -46,6 +47,7 @@ const sections: GaiaNavbarSection[] = [
     ],
   },
   {
+    system: "gaia",
     title: "Infrastructure",
     links: [
       { icon: IconServer, label: "Nodes", link: "/infrastructure/nodes" },
