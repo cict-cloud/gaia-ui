@@ -12,6 +12,7 @@ export interface GaiaNavbarLink {
 }
 
 export interface GaiaNavbarSection {
+  system: string;
   title: string;
   links: GaiaNavbarLink[];
 }
