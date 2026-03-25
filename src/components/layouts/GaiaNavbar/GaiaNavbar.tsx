@@ -14,7 +14,7 @@ export interface GaiaNavbarLink {
 }
 
 export interface GaiaNavbarSection {
-  system: keyof GaiaRemoteConfigs;
+  system: keyof GaiaRemoteConfigs | string;
   title: string;
   links: GaiaNavbarLink[];
 }
