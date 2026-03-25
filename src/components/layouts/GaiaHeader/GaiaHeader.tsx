@@ -9,8 +9,10 @@ export interface GaiaHeaderMenuItem {
   path: string;
 }
 
+export type GaiaSystem = keyof GaiaRemoteConfigs | (string & {});
+
 export interface GaiaHeaderMenuGroup {
-  system: keyof GaiaRemoteConfigs | (string & {});
+  system: GaiaSystem;
   label: string;
   items: GaiaHeaderMenuItem[];
 }
