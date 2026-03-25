@@ -2,6 +2,7 @@ import cloudLogo from "../../../assets/cloud.png";
 import { Box, Button, Group, Image, Menu, Title } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 import { useNavigate } from "react-router";
+import type { GaiaRemoteConfigs } from "@/context/GaiaShellContext";
 
 export interface GaiaHeaderMenuItem {
   label: string;
@@ -9,6 +10,7 @@ export interface GaiaHeaderMenuItem {
 }
 
 export interface GaiaHeaderMenuGroup {
+  system: keyof GaiaRemoteConfigs;
   label: string;
   items: GaiaHeaderMenuItem[];
 }

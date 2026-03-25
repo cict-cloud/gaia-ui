@@ -2,7 +2,7 @@ import { Box, ScrollArea, Title } from "@mantine/core";
 import { type Icon } from "@tabler/icons-react";
 import { useLocation } from "react-router";
 import { NavbarLinksGroup } from "../../links/NavbarLinksGroup";
-import { type GaiaRemoteConfigs } from "../../../context/GaiaShellContext";
+import { type GaiaRemoteConfigs } from "@/context/GaiaShellContext";
 
 export interface GaiaNavbarLink {
   icon: Icon;

@@ -3,6 +3,9 @@ import { createContext, useContext } from "react";
 export interface GaiaRemoteConfigs {
   tropos?: { baseUrl: string };
   pleco?: { baseUrl: string };
+  ghidora?: { baseUrl: string };
+  argon?: { baseUrl: string };
+  cmr?: { baseUrl: string };
   // Add more systems here
 }
 
