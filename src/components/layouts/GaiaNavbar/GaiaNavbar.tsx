@@ -8,7 +8,7 @@ export interface GaiaNavbarLink {
   icon: Icon;
   label: string;
   link?: string;
-  permission?: string[];
+  permissions?: string[];
   initiallyOpened?: boolean;
   links?: { label: string; link: string }[];
 }

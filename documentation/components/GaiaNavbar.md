@@ -35,7 +35,7 @@ interface GaiaNavbarLink {
   icon: Icon;                // A Tabler icon component (e.g. IconServer)
   label: string;
   link?: string;             // Route path — used for simple (non-collapsible) links
-  permission?: string[];     // Required permissions — link is hidden if the user lacks all of these
+  permissions?: string[];    // Required permissions — link is hidden if the user lacks all of these
   initiallyOpened?: boolean; // Whether the collapsible group starts open
   links?: { label: string; link: string }[]; // Child links — makes this a collapsible group
 }
@@ -43,7 +43,7 @@ interface GaiaNavbarLink {
 
 A `GaiaNavbarLink` is either a **simple link** (`link` provided, no `links` array) or a **collapsible group** (`links` array provided).
 
-If `permission` is set, the link is only shown to users whose `permissions` array (from `GaiaShellUser`) includes **all** of the listed permission strings. Omitting `permission` (or leaving it empty) means the link is always visible.
+If `permissions` is set, the link is only shown to users whose `permissions` array (from `GaiaShellUser`) includes **all** of the listed permission strings. Omitting `permissions` (or leaving it empty) means the link is always visible.
 
 ## Layout
 
