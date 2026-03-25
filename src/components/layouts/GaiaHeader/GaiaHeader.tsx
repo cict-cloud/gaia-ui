@@ -12,7 +12,7 @@ export interface GaiaHeaderMenuItem {
 export type GaiaSystem = keyof GaiaRemoteConfigs | (string & {});
 
 export interface GaiaHeaderMenuGroup {
-  system: GaiaSystem;
+  system: string;
   label: string;
   items: GaiaHeaderMenuItem[];
 }
