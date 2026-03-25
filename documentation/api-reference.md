@@ -47,6 +47,7 @@ interface GaiaHeaderProps {
 }
 
 interface GaiaHeaderMenuGroup {
+  system: keyof GaiaRemoteConfigs; // "tropos" | "pleco" | ...
   label: string;
   items: GaiaHeaderMenuItem[];
 }

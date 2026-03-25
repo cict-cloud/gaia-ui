@@ -23,7 +23,8 @@ import { GaiaHeader } from "@converge-cloudops/gaia-ui";
 
 ```ts
 interface GaiaHeaderMenuGroup {
-  label: string; // Button label for the dropdown trigger
+  system: keyof GaiaRemoteConfigs; // Must match a key registered in GaiaRemoteConfigs ("tropos" | "pleco" | ...)
+  label: string;                   // Button label for the dropdown trigger
   items: GaiaHeaderMenuItem[];
 }
 ```
