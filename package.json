@@ -1,6 +1,6 @@
 {
   "name": "@converge-cloudops/gaia-ui",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "Shared UI shell components for GAIA-based projects",
   "homepage": "https://github.com/cict-cloud/gaia-ui#readme",
   "repository": {
