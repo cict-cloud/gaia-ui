@@ -86,6 +86,7 @@ interface GaiaNavbarLink {
   icon: Icon;                 // Tabler icon component
   label: string;
   link?: string;
+  permission?: string[];      // Required permissions — link is hidden if the user lacks any of these
   initiallyOpened?: boolean;
   links?: { label: string; link: string }[];
 }
