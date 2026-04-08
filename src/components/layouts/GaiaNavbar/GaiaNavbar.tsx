@@ -20,23 +20,15 @@ export interface GaiaNavbarSection {
 }
 
 export interface GaiaNavbarProps {
-  /** All nav sections — the correct one is resolved from the current pathname */
+  /** All nav sections */
   sections: GaiaNavbarSection[];
-  /**
-   * Given the current pathname, return the title of the section to display.
-   *
-   * @example
-   * resolveSection={(pathname) => {
-   *   if (pathname.includes("/infrastructure")) return "Infrastructure";
-   *   return "Dashboard";
-   * }}
-   */
-  resolveSection: (pathname: string) => string;
+  /** Title of the section to display — pre-computed by the consumer (e.g. via getNavKeyFromPath) */
+  navKey: string;
 }
 
-export function GaiaNavbar({ sections, resolveSection }: GaiaNavbarProps) {
+export function GaiaNavbar({ sections, navKey }: GaiaNavbarProps) {
   const { pathname } = useLocation();
-  const section = sections.find((s) => s.title === resolveSection(pathname));
+  const section = sections.find((s) => s.title === navKey);
 
   if (!section) return null;
 

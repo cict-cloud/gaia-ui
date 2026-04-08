@@ -124,10 +124,7 @@ function Shell() {
   return (
     <GaiaShellLayout
       headerProps={{ title: "My App" }}
-      navbarProps={{
-        sections,
-        resolveSection: () => "Dashboard",
-      }}
+      navbarProps={{ sections }}
     >
       <Outlet />
     </GaiaShellLayout>

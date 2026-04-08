@@ -12,7 +12,7 @@ import type { GaiaShellLayoutProps } from "@converge-cloudops/gaia-ui";
 ```ts
 interface GaiaShellLayoutProps {
   headerProps: Omit<GaiaHeaderProps, "burgerSlot">;
-  navbarProps: GaiaNavbarProps;
+  navbarProps: Omit<GaiaNavbarProps, "navKey">;  // sections only
   subHeaderProps?: Omit<SubHeaderProps, "title"> & { title?: string };
   headerHeight?: number;           // default: 50
   navbarWidth?: number;            // default: 240
@@ -21,7 +21,7 @@ interface GaiaShellLayoutProps {
 }
 ```
 
-> When `subHeaderProps` is provided, `title` is auto-resolved from the active nav link. Pass `title` explicitly to override. `react-router` is required — `GaiaShellLayout` calls `useLocation()` internally.
+> `navKey` (the active section title) is computed internally from `useLocation()` using longest-prefix matching against all nav links — no `resolveSection` callback needed. When `subHeaderProps` is provided, `title` is auto-resolved from the active nav link using the same logic; pass `title` explicitly to override. `react-router` is required.
 
 ---
 
@@ -74,7 +74,7 @@ import type {
 ```ts
 interface GaiaNavbarProps {
   sections: GaiaNavbarSection[];
-  resolveSection: (pathname: string) => string;
+  navKey: string;
 }
 
 interface GaiaNavbarSection {
@@ -93,7 +93,7 @@ interface GaiaNavbarLink {
 }
 ```
 
-> `GaiaNavbar` reads `pathname` internally via `useLocation()`. `react-router` is required.
+> `navKey` is the title of the section to display. When using `GaiaShellLayout`, this is computed automatically via longest-prefix matching; only pass it directly when using `GaiaNavbar` standalone. `react-router` is required.
 
 ---
 
