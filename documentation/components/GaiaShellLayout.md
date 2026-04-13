@@ -138,6 +138,28 @@ import { Avatar } from "@mantine/core";
 </GaiaShellLayout>
 ```
 
+## Tabbed routes
+
+When a page uses URL-based tabs (e.g. `/dashboard/:tab`), the nav link's `link` field must be the **base path** — not a specific tab URL. `GaiaShellLayout` matches the current pathname using a prefix check (`startsWith(link + "/")`), so the nav item and its section stay active for all tab URLs beneath it.
+
+```ts
+// ✅ correct — base path covers all tabs (/dashboard/overview, /dashboard/metrics, etc.)
+{ label: "Dashboard", icon: IconLayoutDashboard, link: "/pleco/dashboard" }
+
+// ❌ wrong — only matches the exact tab; navbar disappears when switching tabs
+{ label: "Dashboard", icon: IconLayoutDashboard, link: "/pleco/dashboard/overview" }
+
+// ❌ wrong — literal :tab never matches a real URL segment
+{ label: "CVM EIP", icon: IconServer, link: "/pleco/resources/cvm-eip/:tab" }
+```
+
+If clicking the nav item should land on a specific default tab, handle that with a redirect in the router rather than putting the tab URL in `link`:
+
+```tsx
+// In your router config — redirect the base path to the default tab
+{ path: "/pleco/dashboard", element: <Navigate to="/pleco/dashboard/overview" replace /> }
+```
+
 ## Hiding the navbar on certain routes
 
 Return a non-matching string from `resolveSection` to render no navbar:

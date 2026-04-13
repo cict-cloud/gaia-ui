@@ -9,18 +9,22 @@ import {
 } from "../GaiaNavbar";
 import { SubHeader, type SubHeaderProps } from "../SubHeader";
 
+function matchesPath(pathname: string, linkPath: string): boolean {
+  return pathname === linkPath || pathname.startsWith(linkPath + "/");
+}
+
 function getNavKey(pathname: string, sections: GaiaNavbarSection[]): string {
   let bestMatch: { title: string; matchLength: number } | null = null;
 
   for (const section of sections) {
     for (const group of section.links) {
-      if (group.link && pathname.startsWith(group.link)) {
+      if (group.link && matchesPath(pathname, group.link)) {
         if (!bestMatch || group.link.length > bestMatch.matchLength) {
           bestMatch = { title: section.title, matchLength: group.link.length };
         }
       }
       group.links?.forEach((child) => {
-        if (pathname.startsWith(child.link)) {
+        if (matchesPath(pathname, child.link)) {
           if (!bestMatch || child.link.length > bestMatch.matchLength) {
             bestMatch = {
               title: section.title,
@@ -44,10 +48,10 @@ function resolveSubHeaderTitle(
   if (!section) return navKey;
 
   for (const link of section.links) {
-    if (link.link && pathname.startsWith(link.link)) return link.label;
+    if (link.link && matchesPath(pathname, link.link)) return link.label;
     if (link.links) {
       for (const child of link.links) {
-        if (pathname.startsWith(child.link)) return child.label;
+        if (matchesPath(pathname, child.link)) return child.label;
       }
     }
   }

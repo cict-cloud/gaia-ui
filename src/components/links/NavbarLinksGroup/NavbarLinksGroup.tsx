@@ -36,7 +36,11 @@ export function NavbarLinksGroup({
         component={Link}
         to={link}
         className={classes["simple-link"]}
-        data-active={link === currentPath || undefined}
+        data-active={
+          link === currentPath ||
+          currentPath.startsWith(link + "/") ||
+          undefined
+        }
       >
         <Group gap="md">
           <Group w={30} h={30} align="center" justify="center">
@@ -54,7 +58,11 @@ export function NavbarLinksGroup({
       to={item.link}
       key={item.label}
       className={classes["collapsible-link"]}
-      data-active={item.link === currentPath || undefined}
+      data-active={
+        item.link === currentPath ||
+        currentPath.startsWith(item.link + "/") ||
+        undefined
+      }
     >
       {item.label}
     </Text>
