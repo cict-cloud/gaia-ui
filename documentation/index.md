@@ -10,6 +10,9 @@ Shared UI shell components for GAIA-based projects. Built on top of [Mantine](ht
 - [GaiaNavbar](./components/GaiaNavbar.md) — left sidebar navigation
 - [SubHeader](./components/SubHeader.md) — secondary bar above page content
 - [NavbarLinksGroup](./components/NavbarLinksGroup.md) — individual nav link primitive
+- [BaseDrawer](./components/BaseDrawer.md) — pre-styled right-side drawer with icon, title, and description slot
+- [BaseModal](./components/BaseModal.md) — pre-styled modal with icon, title, and description slot
+- [ConfirmModal](./components/ConfirmModal.md) — fixed-layout confirmation modal for destructive actions
 - [BaseTable](./components/BaseTable.md) — generic paginated data table
 - [TableActions](./components/TableActions.md) — view / update / delete icon button group for table rows
 - [GaiaShellProvider](./context/GaiaShellProvider.md) — context provider for user and remote configs
@@ -29,6 +32,9 @@ GaiaShellLayout          ← full app shell (wraps everything)
     ├── SubHeader (optional) ← secondary bar with page title and action slot
     └── Container ← page content
 
+BaseDrawer               ← right-side drawer with composed title slot (standalone)
+BaseModal                ← modal with composed title slot (standalone)
+ConfirmModal             ← destructive-action confirmation modal (standalone)
 BaseTable<T>             ← standalone generic data table (no shell dependency)
 ```
 

@@ -268,6 +268,71 @@ Returns a React component that reads the remote URL from context, calls `setBase
 
 ---
 
+## BaseDrawer
+
+```ts
+import { BaseDrawer } from "@converge-cloudops/gaia-ui";
+import type { BaseDrawerProps } from "@converge-cloudops/gaia-ui";
+```
+
+```ts
+type BaseDrawerProps = Omit<DrawerProps, "title"> & {
+  title: string;
+  description?: string;
+  icon?: Icon;
+  iconColor?: MantineColor; // default: "convergeTeal"
+  size?: DrawerProps["size"]; // default: "lg"
+}
+```
+
+`position` is fixed to `"right"`. All other Mantine `DrawerProps` are accepted and forwarded.
+
+---
+
+## BaseModal
+
+```ts
+import { BaseModal } from "@converge-cloudops/gaia-ui";
+import type { BaseModalProps } from "@converge-cloudops/gaia-ui";
+```
+
+```ts
+type BaseModalProps = Omit<ModalProps, "title"> & {
+  title: string;
+  description?: string;
+  icon?: Icon;
+  iconColor?: MantineColor; // default: "convergeTeal"
+}
+```
+
+All other Mantine `ModalProps` are accepted and forwarded.
+
+---
+
+## ConfirmModal
+
+```ts
+import { ConfirmModal } from "@converge-cloudops/gaia-ui";
+import type { ConfirmModalProps } from "@converge-cloudops/gaia-ui";
+```
+
+```ts
+interface ConfirmModalProps {
+  opened: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  title: string;
+  description: string;
+  confirmLabel?: string; // default: "Delete"
+  isLoading?: boolean;   // default: false
+  icon?: Icon;           // default: IconAlertTriangle
+}
+```
+
+`size` is fixed to `"sm"`. `withCloseButton` is always `false`. The icon `ThemeIcon` is always `color="red"`.
+
+---
+
 ## BaseTable
 
 ```ts

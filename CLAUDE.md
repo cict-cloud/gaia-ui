@@ -39,6 +39,9 @@ GaiaShellLayout          ← full app shell (wraps everything)
 └── GaiaNavbar           ← left sidebar with scrollable nav sections
     └── NavbarLinksGroup ← individual nav link with optional collapsible children
 
+BaseDrawer               ← right-side drawer with icon/title/description slot (standalone)
+BaseModal                ← modal with icon/title/description slot (standalone)
+ConfirmModal             ← fixed-layout destructive-action confirmation modal (standalone)
 BaseTable<T>             ← generic paginated data table (standalone, no shell dependency)
 ```
 
