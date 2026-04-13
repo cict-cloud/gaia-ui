@@ -1,0 +1,21 @@
+.root {
+  border-radius: var(--mantine-radius-sm);
+}
+
+.header {
+  font-size: var(--mantine-font-size-xs);
+  background-color: #f6f8fa;
+}
+
+.table {
+  tbody tr {
+    @mixin hover {
+      background-color: var(--mantine-color-gray-0);
+      color: var(--mantine-color-convergeTeal-7);
+    }
+  }
+  td {
+    height: 55px;
+    font-size: var(--mantine-font-size-xs);
+  }
+}

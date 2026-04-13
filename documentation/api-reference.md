@@ -268,6 +268,66 @@ Returns a React component that reads the remote URL from context, calls `setBase
 
 ---
 
+## BaseTable
+
+```ts
+import { BaseTable } from "@converge-cloudops/gaia-ui";
+import type {
+  TableMetaTypes,
+  PaginationMeta,
+  DataTableColumn,
+} from "@converge-cloudops/gaia-ui";
+```
+
+```ts
+interface TableMetaTypes<T> {
+  records: T[];
+  columns: DataTableColumn<T>[];
+  fetching: boolean;
+  idAccessor?: string;
+  pagination?: PaginationMeta;
+  selectable?: boolean;         // default: false
+  pinLastColumn?: boolean;      // default: false
+  onRowClick?: (record: T) => void;
+}
+
+interface PaginationMeta {
+  page: number;
+  totalRecords: number;
+  recordsPerPage: number;
+  recordsPerPageOptions: number[];
+  onRecordsPerPageChange: (n: number) => void;
+  onPageChange: (page: number) => void;
+}
+```
+
+`DataTableColumn<T>` is re-exported directly from `mantine-datatable`. See the [mantine-datatable column docs](https://icflorescu.github.io/mantine-datatable/examples/column-properties-and-styling) for the full shape.
+
+> **Peer dependency:** `mantine-datatable ^8.3.13` must be installed in the consuming project.
+
+---
+
+## TableActions
+
+```ts
+import { TableActions } from "@converge-cloudops/gaia-ui";
+import type { TableActionsProps, TableAction } from "@converge-cloudops/gaia-ui";
+```
+
+```ts
+type TableAction = "view" | "update" | "delete";
+
+interface TableActionsProps {
+  onClick: (action: TableAction) => void;
+  include?: TableAction[];      // default: ["view", "update", "delete"]
+  justify?: GroupProps["justify"]; // default: "flex-start"
+}
+```
+
+> Icon colors are resolved via `--gaia-action-edit` and `--gaia-action-delete`. Add a `cssVariablesResolver` to your app's `MantineProvider` to set these per color scheme — see [TableActions theming](./components/TableActions.md#theming-requirement). Fallbacks are `--mantine-color-yellow-6` and `--mantine-color-red-6`.
+
+---
+
 ## Package exports
 
 ```ts

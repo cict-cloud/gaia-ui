@@ -10,6 +10,8 @@ Shared UI shell components for GAIA-based projects. Built on top of [Mantine](ht
 - [GaiaNavbar](./components/GaiaNavbar.md) — left sidebar navigation
 - [SubHeader](./components/SubHeader.md) — secondary bar above page content
 - [NavbarLinksGroup](./components/NavbarLinksGroup.md) — individual nav link primitive
+- [BaseTable](./components/BaseTable.md) — generic paginated data table
+- [TableActions](./components/TableActions.md) — view / update / delete icon button group for table rows
 - [GaiaShellProvider](./context/GaiaShellProvider.md) — context provider for user and remote configs
 - [GaiaShellContext](./context/GaiaShellContext.md) — context types and hooks (`useGaiaShellContext`, `useGaiaRemoteConfig`)
 - [createRemoteBaseQuery](./api/createRemoteBaseQuery.md) — RTK Query base query with a mutable base URL
@@ -26,6 +28,8 @@ GaiaShellLayout          ← full app shell (wraps everything)
 └── AppShell.Main
     ├── SubHeader (optional) ← secondary bar with page title and action slot
     └── Container ← page content
+
+BaseTable<T>             ← standalone generic data table (no shell dependency)
 ```
 
 `GaiaShellLayout` is the recommended entry point — it composes the header and navbar and manages the mobile burger toggle internally. Use `GaiaHeader` and `GaiaNavbar` directly only if you need to manage your own `AppShell`.
