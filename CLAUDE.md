@@ -43,6 +43,8 @@ BaseDrawer               ← right-side drawer with icon/title/description slot 
 BaseModal                ← modal with icon/title/description slot (standalone)
 ConfirmModal             ← fixed-layout destructive-action confirmation modal (standalone)
 BaseTable<T>             ← generic paginated data table (standalone, no shell dependency)
+
+useModalState<T>         ← hook: pairs open/close disclosure with a typed data record
 ```
 
 `GaiaShellLayout` composes `GaiaHeader` and `GaiaNavbar` together and manages the mobile burger toggle and responsive breakpoints. Consumers can also use `GaiaHeader` and `GaiaNavbar` independently for custom shell layouts.

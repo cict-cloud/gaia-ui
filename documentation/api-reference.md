@@ -268,6 +268,24 @@ Returns a React component that reads the remote URL from context, calls `setBase
 
 ---
 
+## useModalState
+
+```ts
+import { useModalState } from "@converge-cloudops/gaia-ui";
+```
+
+```ts
+function useModalState<T>(): {
+  data: T | null;
+  opened: boolean;
+  openWith: (value: T) => void;
+  close: () => void;
+  onExited: () => void;
+}
+```
+
+---
+
 ## BaseDrawer
 
 ```ts

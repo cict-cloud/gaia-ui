@@ -10,6 +10,7 @@ Shared UI shell components for GAIA-based projects. Built on top of [Mantine](ht
 - [GaiaNavbar](./components/GaiaNavbar.md) — left sidebar navigation
 - [SubHeader](./components/SubHeader.md) — secondary bar above page content
 - [NavbarLinksGroup](./components/NavbarLinksGroup.md) — individual nav link primitive
+- [useModalState](./hooks/useModalState.md) — pairs open/close state with a typed data record for modals and drawers
 - [BaseDrawer](./components/BaseDrawer.md) — pre-styled right-side drawer with icon, title, and description slot
 - [BaseModal](./components/BaseModal.md) — pre-styled modal with icon, title, and description slot
 - [ConfirmModal](./components/ConfirmModal.md) — fixed-layout confirmation modal for destructive actions

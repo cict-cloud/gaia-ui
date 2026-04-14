@@ -30,6 +30,9 @@ export { GaiaShellProvider } from "./context/GaiaShellProvider";
 export { useGaiaShellContext, useGaiaRemoteConfig, useGaiaShellUser, useSetGaiaShellUser } from "./context/GaiaShellContext";
 export type { GaiaShellContextValue, GaiaRemoteConfigs, GaiaShellUser } from "./context/GaiaShellContext";
 
+// Hooks
+export { useModalState } from "./hooks/useModalState";
+
 // Drawer components
 export { BaseDrawer } from "./components/drawers/BaseDrawer";
 export type { BaseDrawerProps } from "./components/drawers/BaseDrawer";
